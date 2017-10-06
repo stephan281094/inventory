@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|PT+Sans');
+
+// Functions
+@function long-shadow($color: black, $depth: 10) {
+  $shadow: 1px 1px $color;
+
+  @for $i from 1 through $depth {
+    $shadow: '#{$shadow}, #{$i}px #{$i}px #{$color}';
+  }
+  @return $shadow;
+}
+
+// Mixins
+@mixin scrimGradient($startColor: 'black', $direction: 'to bottom', $alpha: 1) {
+  $scrimCoordinates: (
+    0: 1,
+    19: 0.738,
+    34: 0.541,
+    47: 0.382,
+    56.5: 0.278,
+    65: 0.194,
+    73: 0.126,
+    80.2: 0.075,
+    86.1: 0.042,
+    91: 0.021,
+    95.2: 0.008,
+    98.2: 0.002,
+    100: 0
+  );
+
+  $hue: hue($startColor);
+  $saturation: saturation($startColor);
+  $lightness: lightness($startColor);
+  $stops: ();
+
+  @each $colorStop, $alphaValue in $scrimCoordinates {
+    $stop: hsla($hue, $saturation, $lightness, $alphaValue * $alpha) percentage($colorStop / 100);
+    $stops: append($stops, $stop, comma);
+  }
+
+  background: linear-gradient(unquote($direction), $stops);
+}
+
+:root {
+  --base-unit: 4rem;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+html,
+body {
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  position: relative;
+  background-color: #eee;
+  font: 16px / 1.5 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.app {
+  background-color: #fff;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: min-content;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.aside {
+  top: 4rem;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff;
+}
+
+.aside-item {
+  font-size: 1rem;
+  display: block;
+}
+
+.aside-item:last-child {
+  margin-bottom: 0;
+}
+
+.aside-item__link {
+  position: relative;
+  color: #888;
+  text-decoration: none;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: .75rem;
+  display: block;
+  margin-bottom: .75rem;
+}
+
+.aside-item__link:hover,
+.aside-item__link.router-link-active {
+  color: #000;
+  font-weight: 400;
+}
+
+.aside-item__link--sublink {
+  text-transform: initial;
+  letter-spacing: 1px;
+  margin-left: 1rem;
+}
+
+.aside-item__link--sublink:first-letter {
+  text-transform: uppercase;
+}
+
+.content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  padding: var(--base-unit) var(--base-unit) 0;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.header {
+  padding: var(--base-unit) var(--base-unit) 0;
+  margin-bottom: 2rem;
+}
+
+.main {
+  flex: 1;
+  padding-left: 2rem;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 2rem;
+  margin-bottom: var(--base-unit);
+}
+
+.item {
+  position: relative;
+  padding: 2rem;
+  background-color: #eee;
+  height: 0;
+  padding-bottom: 75%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &:hover .item__background {
+    transform: scale(1.1);
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    @include scrimGradient(#000, 'to top', 0.4)
+    transition: .2s ease-in-out;
+  }
+
+  &__background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: .35s ease-in-out;
+    will-change: transform;
+  }
+
+  &__content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+    z-index: 1;
+  }
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  padding: 2rem;
+  min-height: 300px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  color: #fff;
+  overflow: hidden;
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    @include scrimGradient(#000, 'to top', 0.4)
+    transition: .2s ease-in-out;
+  }
+
+  &__background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: -1;
+  }
+
+  &__title {
+    margin-bottom: 0;
+  }
+
+  &__content {
+    z-index: 1;
+  }
+
+  &__description {
+    font-size: 1rem;
+    margin: 0;
+  }
+}
