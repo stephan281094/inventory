@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|PT+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|PT+Sans');
 
 // Functions
 @function long-shadow($color: black, $depth: 10) {
@@ -67,14 +67,19 @@ body {
 body {
   position: relative;
   background-color: #eee;
-  font: 16px / 1.5 'Open Sans', sans-serif;
+  font: 18px / 1.6 'Open Sans', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
 }
 
-
+dd,
+dt,
+li {
+  margin: 0;
+  padding: 0;
+}
 
 h1,
 h2,
@@ -95,6 +100,42 @@ h6,
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+}
+
+p {
+  color: #456;
+}
+
+a {
+  color: #00cdaa;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+figure {
+  width: 100%;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+strong {
+  font-weight: 700;
+}
+
+blockquote {
+  box-shadow: inset 3px 0 0 0 #000;
+  padding-left: 2rem;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .app {
@@ -122,7 +163,7 @@ p {
 
 .aside {
   top: 4rem;
-  width: 250px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -167,14 +208,12 @@ p {
 }
 
 .content {
-  max-width: 1400px;
-  width: 100%;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
   padding: var(--base-unit) var(--base-unit) 0;
   flex: 1;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .header {
@@ -185,11 +224,13 @@ p {
 .main {
   flex: 1;
   padding-left: 2rem;
+  max-width: 696px;
+  width: 100%;
 }
 
 .items {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 2rem;
   margin-bottom: var(--base-unit);
 }
